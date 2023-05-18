@@ -2,6 +2,7 @@ package com.jdriven.adapters.inputhandler;
 
 import com.jdriven.domain.models.DomainData;
 import com.jdriven.domain.ports.MagicDomainLogicPort;
+import io.github.pixee.security.BoundedLineReader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -74,7 +75,7 @@ public class FileInputHandler {
         }
         try (InputStreamReader streamReader = new InputStreamReader(is);
              BufferedReader bufferedReader = new BufferedReader(streamReader)) {
-            if ((line = bufferedReader.readLine()) != null) {
+            if ((line = BoundedLineReader.readLine(bufferedReader, 1000000)) != null) {
                 data.setFields(line.split(cvsSplitBy));
             }
         } catch (IOException e) {
